@@ -1,0 +1,64 @@
+
+
+CULTURA POLÍTICA
+
+```{r}
+
+library(htmltab)
+link = "https://en.wikipedia.org/wiki/Democracy_Index#:~:text=The%20Democracy%20Index%20is%20an,164%20are%20UN%20member%20states."
+path = '//*[@id="mw-content-text"]/div[1]/table[2]'
+
+cp=htmltab(link,path)
+
+
+```
+
+```{r}
+cp$`Rank >> Rank`=NULL
+cp$`Score >> Score`=NULL
+cp$`Electoral processand pluralism >> Electoral processand pluralism`=NULL
+cp$`FunctioÂ­ning ofgovernÂ­ment >> FunctioÂ­ning ofgovernÂ­ment`=NULL
+cp$`PoliticalparticiÂ­pation >> PoliticalparticiÂ­pation`=NULL
+cp$`Civilliberties >> Civilliberties`=NULL
+cp$`Changes fromlast year >> Changes fromlast year`=NULL
+```
+
+```{r}
+library(stringr)
+
+cp$País=str_split(cp$`Country >> Country`,
+                     '>>',
+                     simplify = T)[,1]
+
+cp$`Country >> Country`=NULL
+
+```
+
+
+```{r}
+cp$Cultura_política=str_split(cp$`Politicalculture >> Politicalculture`,
+                               '>>',
+                               simplify= T)[,1]
+cp$`Politicalculture >> Politicalculture`=NULL
+```
+
+```{r}
+cp$Tipo_régimen=str_split(cp$`Regimetype >> Regimetype`,
+                         '>>',
+                         simplify=T)[,1]
+cp$`Regimetype >> Regimetype`=NULL
+```
+
+```{r}
+cp$Región=str_split(cp$`Region >> Region`,
+                    '>>',
+                    simplify=T)[,1]
+cp$`Region >> Region`=NULL
+```
+
+```{r}
+names(cp)
+
+cp$País=gsub('Â ',"",cp$País)
+```
+
